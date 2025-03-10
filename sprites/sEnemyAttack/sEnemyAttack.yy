@@ -1,11 +1,11 @@
 {
   "$GMSprite":"",
   "%Name":"sEnemyAttack",
-  "bboxMode":0,
-  "bbox_bottom":49,
-  "bbox_left":0,
+  "bboxMode":2,
+  "bbox_bottom":19,
+  "bbox_left":29,
   "bbox_right":50,
-  "bbox_top":0,
+  "bbox_top":15,
   "collisionKind":1,
   "collisionTolerance":0,
   "DynamicTexturePage":false,
@@ -46,7 +46,13 @@
     "backdropYOffset":0.0,
     "events":{
       "$KeyframeStore<MessageEventKeyframe>":"",
-      "Keyframes":[],
+      "Keyframes":[
+        {"$Keyframe<MessageEventKeyframe>":"","Channels":{
+            "0":{"$MessageEventKeyframe":"","Events":[
+                "atacar",
+              ],"resourceType":"MessageEventKeyframe","resourceVersion":"2.0",},
+          },"Disabled":false,"id":"409eb008-4e37-4ec3-8bae-aceb94928055","IsCreationKey":false,"Key":2.0,"Length":1.0,"resourceType":"Keyframe<MessageEventKeyframe>","resourceVersion":"2.0","Stretch":false,},
+      ],
       "resourceType":"KeyframeStore<MessageEventKeyframe>",
       "resourceVersion":"2.0",
     },

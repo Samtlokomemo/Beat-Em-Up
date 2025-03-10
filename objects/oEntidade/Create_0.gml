@@ -1,3 +1,4 @@
+myDmg = noone;
 hspd = 0;
 vspd = 0;
 zspd = 0;

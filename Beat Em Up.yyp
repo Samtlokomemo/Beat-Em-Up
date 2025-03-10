@@ -44,6 +44,7 @@
     {"id":{"name":"oPlayer","path":"objects/oPlayer/oPlayer.yy",},},
     {"id":{"name":"oSombra","path":"objects/oSombra/oSombra.yy",},},
     {"id":{"name":"Room1","path":"rooms/Room1/Room1.yy",},},
+    {"id":{"name":"Scripts","path":"scripts/Scripts/Scripts.yy",},},
     {"id":{"name":"sBG","path":"sprites/sBG/sBG.yy",},},
     {"id":{"name":"sBlock","path":"sprites/sBlock/sBlock.yy",},},
     {"id":{"name":"sEnemyAttack","path":"sprites/sEnemyAttack/sEnemyAttack.yy",},},

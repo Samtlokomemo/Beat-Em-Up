@@ -6,6 +6,16 @@ timerState = timerWait;
 timerAttack = 0;
 target = noone;
 
+//HITBOX
+hitboxX = x;
+hitboxY = y;
+rangeX = 20;
+rangeY = 10;
+
+pointX = 0;
+pointY = 0;
+pointSize = 10;
+
 function StateIdle(){
     sprite_index = sEnemyIdle;
     
@@ -59,18 +69,32 @@ function checkVision(_size = 0, _target = noone){
 
 function ChaseState(){
     
-    var _dist = point_distance(x, y, target.x, target.y);
+    var _dist = point_distance(hitboxX, hitboxY, pointX, pointY);
     
-    var _dir = point_direction(x, y, target.x, target.y);
-    hspd = lengthdir_x(spd, _dir);
-    vspd = lengthdir_y(spd, _dir);
+    var _dir = point_direction(hitboxX, hitboxY, pointX, pointY);
+    
+    hitboxY = y - sprite_height / 2;
+    hitboxX = x; 
+    
+    pointX = target.x;
+    pointY = target.y - target.sprite_height/2;
+    
+    
+    var _distX = abs(pointX - hitboxX);
+    var _distY = abs(pointY - hitboxY);
+    
+    hspd = lengthdir_x(_distX < 15 ? 0 : .5, _dir);
+    vspd = lengthdir_y(_distY < 5 ? 0 : .5, _dir);
     
     if(sprite_index != sEnemyWalk){
         sprite_index = sEnemyWalk;
         image_index = 0;
     }
     
-    if(_dist < 15){
+    var _atacar = rectangle_in_rectangle(hitboxX, hitboxY, hitboxX + rangeX * face, hitboxY - rangeY,
+                                        pointX, pointY, pointX + pointSize * -face, pointY - pointSize)
+    
+    if(_atacar){
         state = StateAttack;
     }
 }
@@ -86,6 +110,7 @@ function StateAttack(){
     if(image_index > image_number - 1){
         state = StateIdle;
         timerAttack = timerWait;
+        delete myDmg;
     }
 }
 

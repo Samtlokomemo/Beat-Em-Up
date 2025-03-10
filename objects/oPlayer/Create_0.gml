@@ -1,3 +1,4 @@
+myDmg = noone;
 spd = 2;
 hspd = 0;
 vspd = 0;
@@ -9,7 +10,6 @@ grav = .3;
 jumpHeight = 6;
 
 state = noone;
-textState = " ";
 
 function PlayerControls(){
     //Movimentação
@@ -64,7 +64,6 @@ function PlayerControls(){
 }
 
 function StateIdle(){
-    textState = "Idle";
     sprite_index = sPlayerIdle;
     PlayerControls();
     if(hspd != 0 or vspd != 0){
@@ -73,7 +72,6 @@ function StateIdle(){
 }
 
 function StateWalk(){
-    textState = "Walk";
     sprite_index = sPlayerWalk;
     PlayerControls();
     if(hspd == 0 and vspd == 0){
@@ -82,14 +80,13 @@ function StateWalk(){
 }
 
 function StateAttack(){
-    textState = "Attack";
-    
     if(sprite_index != sPlayerHandAttack){
         image_index = 0;
         sprite_index = sPlayerHandAttack;
     }
     if(image_index >= image_number-1){
         state = StateIdle;
+        delete myDmg;
     }
 }
 
