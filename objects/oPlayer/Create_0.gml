@@ -1,3 +1,5 @@
+event_inherited();
+
 myDmg = noone;
 spd = 2;
 hspd = 0;
@@ -6,6 +8,7 @@ zspd = 0;
 face = 1;
 
 z = 0;
+
 grav = .3;
 jumpHeight = 6;
 

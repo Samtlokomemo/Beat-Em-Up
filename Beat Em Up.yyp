@@ -36,6 +36,7 @@
   },
   "name":"Beat Em Up",
   "resources":[
+    {"id":{"name":"fntArial","path":"fonts/fntArial/fntArial.yy",},},
     {"id":{"name":"oBlock","path":"objects/oBlock/oBlock.yy",},},
     {"id":{"name":"oCam","path":"objects/oCam/oCam.yy",},},
     {"id":{"name":"oEnemy","path":"objects/oEnemy/oEnemy.yy",},},

@@ -68,7 +68,6 @@ function checkVision(_size = 0, _target = noone){
 }
 
 function ChaseState(){
-    
     var _dist = point_distance(hitboxX, hitboxY, pointX, pointY);
     
     var _dir = point_direction(hitboxX, hitboxY, pointX, pointY);
@@ -84,7 +83,7 @@ function ChaseState(){
     var _distY = abs(pointY - hitboxY);
     
     hspd = lengthdir_x(_distX < 15 ? 0 : .5, _dir);
-    vspd = lengthdir_y(_distY < 5 ? 0 : .5, _dir);
+    vspd = lengthdir_y(_distY < 5 ? 0 : .5, _dir); 
     
     if(sprite_index != sEnemyWalk){
         sprite_index = sEnemyWalk;
@@ -97,6 +96,8 @@ function ChaseState(){
     if(_atacar){
         state = StateAttack;
     }
+    
+    
 }
 
 function StateAttack(){

@@ -18,4 +18,12 @@ function Damage(_x1, _y1, _x2, _y2) constructor {
         myY = other.y;
         myZ = other.z;
     }
+    
+    static collision_check = function(){
+        
+    }
+}
+
+function HurtBox(_x1, _y1, _x2, _y2) : Damage(_x1, _y1, _x2, _y2) constructor {
+    
 }

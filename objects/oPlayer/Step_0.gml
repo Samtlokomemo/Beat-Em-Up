@@ -1,3 +1,4 @@
+event_inherited();
 state();
 Parallax();
 if(is_struct(myDmg)){
