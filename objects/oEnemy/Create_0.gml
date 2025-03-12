@@ -1,3 +1,4 @@
+event_inherited();
 randomize();
 event_inherited();
 spd = .5;
@@ -113,6 +114,26 @@ function StateAttack(){
         timerAttack = timerWait;
         delete myDmg;
     }
+}
+
+function DamageState(){
+    hspd = 0;
+    vspd = 0;
+    if(sprite_index != sEnemyHurt){
+        image_index = 0;
+        sprite_index = sEnemyHurt;
+    }
+    image_blend = c_red;
+    if(image_index >= image_number-1){
+        state = StateIdle;
+        target = noone;
+        image_blend = c_white;
+    }
+}
+ function DeathState(){
+    hspd = 0;
+    vspd = 0;
+    
 }
 
 state = StateIdle;

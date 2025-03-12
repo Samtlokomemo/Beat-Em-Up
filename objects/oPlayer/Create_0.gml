@@ -10,6 +10,7 @@ face = 1;
 z = 0;
 
 grav = .3;
+atk = " ";
 jumpHeight = 6;
 
 state = noone;
@@ -21,6 +22,7 @@ function PlayerControls(){
     var _down   = keyboard_check(ord("S")) || keyboard_check(vk_down);
     var _right  = keyboard_check(ord("D")) || keyboard_check(vk_right);
     var _hit    = keyboard_check_pressed(ord("Z"));
+    var _kick    = keyboard_check_pressed(ord("X"));
     var _jump   = keyboard_check(vk_space);
     
     #region Movimentação
@@ -56,7 +58,12 @@ function PlayerControls(){
     }
     y += vspd;
     
-    if(_hit and state != StateJump){
+    if((_hit or _kick) and state != StateJump){
+        if(_hit){
+            atk = "hit";
+        }else if(_kick){
+            atk = "kick";
+        }
         state = StateAttack;
     }
     
@@ -83,9 +90,12 @@ function StateWalk(){
 }
 
 function StateAttack(){
-    if(sprite_index != sPlayerHandAttack){
+    if(sprite_index != sPlayerHandAttack and atk = "hit"){
         image_index = 0;
         sprite_index = sPlayerHandAttack;
+    }else if(sprite_index != sPlayerKick and atk = "kick"){
+        image_index = 0;
+        sprite_index = sPlayerKick;
     }
     if(image_index >= image_number-1){
         state = StateIdle;
@@ -120,6 +130,20 @@ function StateJump(){
         state = StateIdle;
     }
     
+}
+
+function DamageState(){
+    hspd = 0;
+    vspd = 0;
+    if(sprite_index != sPlayerHurt){
+        image_index = 0;
+        sprite_index = sPlayerHurt;
+    }
+    image_blend = c_red;
+    if(image_index >= image_number-1){
+        state = StateIdle;
+        image_blend = c_white;
+    }
 }
 
 function Parallax(){

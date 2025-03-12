@@ -9,7 +9,7 @@ if(layer_instance_get_instance(event_data[? "element_id"]) == id){
             _x2 = (-sprite_xoffset + sprite_get_bbox_right(sprite_index))*face;
             _y2 = -sprite_yoffset + sprite_get_bbox_bottom(sprite_index);
             
-            myDmg = new Damage(_x1, _y1, _x2, _y2);
+            myDmg = new Damage(_x1, _y1, _x2, _y2, id);
         }
     } 
 }
