@@ -130,10 +130,15 @@ function DamageState(){
         image_blend = c_white;
     }
 }
- function DeathState(){
+
+function DeathState(){
     hspd = 0;
     vspd = 0;
-    
+    sprite_index = sEnemyDeath;
+    if (image_index >= image_number - 1) {
+        image_speed = 0;
+        image_index = image_number - 1;
+    }
 }
 
 state = StateIdle;
