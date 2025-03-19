@@ -7,6 +7,8 @@ timerState = timerWait;
 timerAttack = 0;
 target = noone;
 
+life = 10;
+
 //HITBOX
 hitboxX = x;
 hitboxY = y;
@@ -138,6 +140,10 @@ function DeathState(){
     if (image_index >= image_number - 1) {
         image_speed = 0;
         image_index = image_number - 1;
+        image_alpha-=.008;
+        if(image_alpha <= 0){
+            instance_destroy(id);
+        }
     }
 }
 

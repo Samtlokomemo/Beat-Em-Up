@@ -9,6 +9,8 @@ face = 1;
 
 z = 0;
 
+life = 1;
+
 grav = .3;
 atk = " ";
 jumpHeight = 6;
