@@ -7,7 +7,7 @@ timerState = timerWait;
 timerAttack = 0;
 target = noone;
 
-life = 10;
+life = 50;
 
 //HITBOX
 hitboxX = x;
@@ -85,6 +85,10 @@ function ChaseState(){
     var _distX = abs(pointX - hitboxX);
     var _distY = abs(pointY - hitboxY);
     
+    if(_distX > vision){
+        state = StateWander;
+    }
+    
     hspd = lengthdir_x(_distX < 15 ? 0 : .5, _dir);
     vspd = lengthdir_y(_distY < 5 ? 0 : .5, _dir); 
     
@@ -106,15 +110,15 @@ function ChaseState(){
 function StateAttack(){
     hspd = 0;
     vspd = 0;
+    delete myDmg;
     if(sprite_index != sEnemyAttack){
         sprite_index = sEnemyAttack;
         image_index = 0;
     }
     
     if(image_index > image_number - 1){
-        state = StateIdle;
+        state = StateWander;
         timerAttack = timerWait;
-        delete myDmg;
     }
 }
 

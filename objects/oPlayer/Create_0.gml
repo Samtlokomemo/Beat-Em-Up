@@ -8,11 +8,7 @@ zspd = 0;
 face = 1;
 
 z = 0;
-
-life = 1;
-
 grav = .3;
-atk = " ";
 jumpHeight = 6;
 
 state = noone;
@@ -24,8 +20,8 @@ function PlayerControls(){
     var _down   = keyboard_check(ord("S")) || keyboard_check(vk_down);
     var _right  = keyboard_check(ord("D")) || keyboard_check(vk_right);
     var _hit    = keyboard_check_pressed(ord("Z"));
-    var _kick    = keyboard_check_pressed(ord("X"));
     var _jump   = keyboard_check(vk_space);
+    var _dash   = keyboard_check_pressed(vk_shift);
     
     #region Movimentação
     hspd = (_right - _left);
@@ -60,18 +56,18 @@ function PlayerControls(){
     }
     y += vspd;
     
-    if((_hit or _kick) and state != StateJump){
-        if(_hit){
-            atk = "hit";
-        }else if(_kick){
-            atk = "kick";
-        }
+    if(_hit and state != StateJump){
         state = StateAttack;
     }
     
     if(_jump and state != StateJump){
         state = StateJump;
         zspd = -jumpHeight;
+    }
+    
+    if(_dash){
+        dashTime = 10;
+        state = StateDash;   
     }
 }
 
@@ -92,17 +88,28 @@ function StateWalk(){
 }
 
 function StateAttack(){
-    if(sprite_index != sPlayerHandAttack and atk = "hit"){
+    var _hit    = keyboard_check_pressed(ord("Z"));
+    if(sprite_index != sPlayerHandAttack && sprite_index != sPlayerKick){
         image_index = 0;
         sprite_index = sPlayerHandAttack;
-    }else if(sprite_index != sPlayerKick and atk = "kick"){
-        image_index = 0;
-        sprite_index = sPlayerKick;
     }
+    
+    if(_hit){
+        if(sprite_index == sPlayerHandAttack){
+            if(image_index >= image_number-1){
+                sprite_index = sPlayerKick;
+                image_index = 0;
+            }
+        }else if(sprite_index == sPlayerKick){
+            exit;
+        }
+    }
+    
     if(image_index >= image_number-1){
         state = StateIdle;
-        delete myDmg;
+        
     }
+    delete myDmg;
 }
 
 function StateJump(){
@@ -148,16 +155,30 @@ function DamageState(){
     }
 }
 
+function StateDash(){
+    x += lerp(0, 10 * face, .5);
+    p = instance_create_depth(x, y, depth, oDash);
+    dashTime--;
+    if(dashTime <= 0){
+        state = StateIdle;
+    }
+    
+}
+
 function Parallax(){
-    var _layer = layer_get_id("Background");
+    var _backGround = layer_get_id("Background");
+    var _foreGround = layer_get_id("Foreground");
     
     //Pegando a posição da câmera
     var _x = camera_get_view_x(view_camera[0]);
     var _y = camera_get_view_y(view_camera[0]);
     
     //Mudando a posição do fundo com uma velocidade reduzida (Parallax)
-    layer_x(_layer, _x / 4);
-    layer_y(_layer, _y / 4);
+    layer_x(_backGround, _x / 4);
+    layer_y(_backGround, _y / 4);
+    
+    layer_x(_foreGround, _x / 12);
+    layer_y(_foreGround, _y / 12);
 }
 
 state = StateIdle;

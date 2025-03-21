@@ -3,6 +3,7 @@ function Damage(_x1, _y1, _x2, _y2, _parent = noone) constructor {
     myX = other.x;
     myY = other.y;
     myZ = other.z;
+    face = other.face;
     
     x1 = _x1;
     x2 = _x2;
@@ -41,7 +42,7 @@ function Damage(_x1, _y1, _x2, _y2, _parent = noone) constructor {
                     
                     if(_dmg){
                         _other.state = _other.DamageState;
-                        _other.life--;
+                        _other.life-=5;
                     }
                 }
             }
