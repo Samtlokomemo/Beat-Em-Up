@@ -95,13 +95,9 @@ function StateAttack(){
     }
     
     if(_hit){
-        if(sprite_index == sPlayerHandAttack){
-            if(image_index >= image_number-1){
-                sprite_index = sPlayerKick;
-                image_index = 0;
-            }
-        }else if(sprite_index == sPlayerKick){
-            exit;
+        if(sprite_index == sPlayerHandAttack and image_index >= image_number-2){
+            sprite_index = sPlayerKick; 
+            image_index = 0;
         }
     }
     
@@ -176,9 +172,6 @@ function Parallax(){
     //Mudando a posição do fundo com uma velocidade reduzida (Parallax)
     layer_x(_backGround, _x / 4);
     layer_y(_backGround, _y / 4);
-    
-    layer_x(_foreGround, _x / 12);
-    layer_y(_foreGround, _y / 12);
 }
 
 state = StateIdle;
