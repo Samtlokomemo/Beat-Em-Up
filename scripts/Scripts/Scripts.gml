@@ -41,8 +41,11 @@ function Damage(_x1, _y1, _x2, _y2, _parent = noone) constructor {
                     _hurt.x1 + _hurt.myX, _hurt.y1 + _hurt.myY + _hurt.myZ, _hurt.x2 + _hurt.myX, _hurt.y2 + _hurt.myY + _hurt.myZ)
                     
                     if(_dmg){
-                        _other.state = _other.DamageState;
-                        _other.life-=5;
+                        if (_other.invulnerableTime <= 0) { 
+                            _other.life-=5;
+                            _other.state = _other.DamageState;
+                        }
+                        
                     }
                 }
             }

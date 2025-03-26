@@ -64,7 +64,7 @@ function StateWander(){
     }
 }
 
-vision = 70;
+vision = 100;
 function checkVision(_size = 0, _target = noone){
     if(_target == noone){return false}
     return collision_circle(x, y, _size, _target, 0, 1);
@@ -92,19 +92,14 @@ function ChaseState(){
     hspd = lengthdir_x(_distX < 15 ? 0 : .5, _dir);
     vspd = lengthdir_y(_distY < 5 ? 0 : .5, _dir); 
     
+    if(_distX < 15 and _distY < 5){
+        state = StateAttack;
+    }
+    
     if(sprite_index != sEnemyWalk){
         sprite_index = sEnemyWalk;
         image_index = 0;
     }
-    
-    var _atacar = rectangle_in_rectangle(hitboxX, hitboxY, hitboxX + rangeX * face, hitboxY - rangeY,
-                                        pointX, pointY, pointX + pointSize * -face, pointY - pointSize)
-    
-    if(_atacar){
-        state = StateAttack;
-    }
-    
-    
 }
 
 function StateAttack(){
@@ -122,17 +117,36 @@ function StateAttack(){
     }
 }
 
+function DamageStateOld(){
+    hspd = 0;
+    vspd = 0;
+    if(sprite_index != sEnemyHurt){
+        sprite_index = sEnemyHurt;
+        image_index = 0;
+    }
+    
+    x+=.1*target.face;
+    image_blend = c_red;
+    if(image_index >= image_number-1){
+        timerAttack = 20;
+        state = StateIdle;
+        image_blend = c_white;
+    }
+}
+
 function DamageState(){
     hspd = 0;
     vspd = 0;
     if(sprite_index != sEnemyHurt){
-        image_index = 0;
         sprite_index = sEnemyHurt;
+        image_index = 0; // Garante que a animação comece do início sempre que entra no estado de dano
     }
+
+    x += 0.1 * target.face;
     image_blend = c_red;
-    if(image_index >= image_number-1){
+
+    if(image_index >= image_number - 1){
         state = StateIdle;
-        target = noone;
         image_blend = c_white;
     }
 }

@@ -7,6 +7,8 @@ vspd = 0;
 zspd = 0;
 face = 1;
 
+life = 1;
+
 z = 0;
 grav = .3;
 jumpHeight = 6;
@@ -65,7 +67,7 @@ function PlayerControls(){
         zspd = -jumpHeight;
     }
     
-    if(_dash){
+    if(_dash and state != StateJump){
         dashTime = 10;
         state = StateDash;   
     }
@@ -89,21 +91,26 @@ function StateWalk(){
 
 function StateAttack(){
     var _hit    = keyboard_check_pressed(ord("Z"));
-    if(sprite_index != sPlayerHandAttack && sprite_index != sPlayerKick){
+    var _kick    = keyboard_check_pressed(ord("X"));
+    if(sprite_index != sPlayerHandAttack and sprite_index != sPlayerPunch and sprite_index != sPlayerKick){
         image_index = 0;
         sprite_index = sPlayerHandAttack;
     }
     
     if(_hit){
         if(sprite_index == sPlayerHandAttack and image_index >= image_number-2){
+            sprite_index = sPlayerPunch; 
+            image_index = 0;
+        }
+    }
+    if(_kick){
+        if(sprite_index == sPlayerHandAttack and image_index >= image_number-2){
             sprite_index = sPlayerKick; 
             image_index = 0;
         }
     }
-    
     if(image_index >= image_number-1){
         state = StateIdle;
-        
     }
     delete myDmg;
 }
@@ -127,38 +134,62 @@ function StateJump(){
     spd = 1.5;
     z += zspd;
     if(z < 0){
-       zspd += grav;
-    }else{
+        zspd += grav;
+    } else {
         zspd = 0;
         z = 0;
         spd = 2;
         state = StateIdle;
     }
-    
 }
 
 function DamageState(){
-    hspd = 0;
-    vspd = 0;
     if(sprite_index != sPlayerHurt){
         image_index = 0;
         sprite_index = sPlayerHurt;
     }
     image_blend = c_red;
     if(image_index >= image_number-1){
-        state = StateIdle;
+        invulnerableTime = invulnerableDuration;
         image_blend = c_white;
+        if(life >= 0){
+            state = StateJump;
+        }
     }
 }
 
-function StateDash(){
+function StateDashOld(){
     x += lerp(0, 10 * face, .5);
+    
     p = instance_create_depth(x, y, depth, oDash);
     dashTime--;
     if(dashTime <= 0){
         state = StateIdle;
     }
-    
+}
+
+function StateDash(){
+    var dashSpeed = 10 * face;
+    var dashStep = abs(dashSpeed);
+    var dashDistance = abs(dashSpeed);
+    var moved = 0;
+
+    for (var i = 0; i < dashStep; i++) {
+        var nextX = x + sign(dashSpeed);
+        if (!place_meeting(nextX, y, oBlock)) {
+            x += sign(dashSpeed);
+            moved += abs(sign(dashSpeed));
+            if (moved >= dashDistance) break;
+        } else {
+            break;
+        }
+    }
+
+    p = instance_create_depth(x, y, depth, oDash);
+    dashTime--;
+    if(dashTime <= 0){
+        state = StateIdle;
+    }
 }
 
 function Parallax(){
