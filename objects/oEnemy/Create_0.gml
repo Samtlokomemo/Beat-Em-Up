@@ -1,7 +1,7 @@
 event_inherited();
 randomize();
 event_inherited();
-spd = .5;
+spd = 1;
 timerWait = game_get_speed(gamespeed_fps) * 2; //2 segundos
 timerState = timerWait;
 timerAttack = 0;
@@ -89,8 +89,8 @@ function ChaseState(){
         state = StateWander;
     }
     
-    hspd = lengthdir_x(_distX < 15 ? 0 : .5, _dir);
-    vspd = lengthdir_y(_distY < 5 ? 0 : .5, _dir); 
+    hspd = lengthdir_x(_distX < 15 ? 0 : spd, _dir);
+    vspd = lengthdir_y(_distY < 5 ? 0 : spd, _dir); 
     
     if(_distX < 15 and _distY < 5){
         state = StateAttack;

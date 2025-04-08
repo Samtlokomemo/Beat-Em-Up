@@ -7,8 +7,6 @@ vspd = 0;
 zspd = 0;
 face = 1;
 
-life = 1;
-
 z = 0;
 grav = .3;
 jumpHeight = 6;
@@ -194,15 +192,17 @@ function StateDash(){
 
 function Parallax(){
     var _backGround = layer_get_id("Background");
-    var _foreGround = layer_get_id("Foreground");
+    var _foreGround = layer_get_id("TileSetBG");
     
     //Pegando a posição da câmera
     var _x = camera_get_view_x(view_camera[0]);
     var _y = camera_get_view_y(view_camera[0]);
     
     //Mudando a posição do fundo com uma velocidade reduzida (Parallax)
-    layer_x(_backGround, _x / 4);
-    layer_y(_backGround, _y / 4);
+    layer_x(_backGround, _x / 2);
+    layer_y(_backGround, _y / 2);
+    layer_x(_foreGround, _x / 8);
+    layer_y(_foreGround, _y / 8);
 }
 
 state = StateIdle;
