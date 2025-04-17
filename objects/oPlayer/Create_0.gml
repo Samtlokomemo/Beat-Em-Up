@@ -190,6 +190,19 @@ function StateDash(){
     }
 }
 
+function StateDeath(){
+    sprite_index = sPlayerDeath;
+    oEnemy.target = noone;
+    if (image_index >= image_number - 1) {
+        image_speed = 0;
+        image_index = image_number - 1;
+        image_alpha -= .01;
+        if(image_alpha <= 0){
+            room_goto(rmGameOver);
+        }
+    }
+}
+
 function Parallax(){
     var _backGround = layer_get_id("Background");
     var _foreGround = layer_get_id("TileSetBG");

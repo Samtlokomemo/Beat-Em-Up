@@ -1,0 +1,1 @@
+alpha = .8 * (1 - exp(-.005 * (100 - oPlayer.life)))

@@ -2,7 +2,7 @@ event_inherited();
 randomize();
 event_inherited();
 spd = 1;
-timerWait = game_get_speed(gamespeed_fps) * 2; //2 segundos
+timerWait = game_get_speed(gamespeed_fps) * 1; //2 segundos
 timerState = timerWait;
 timerAttack = 0;
 target = noone;
@@ -71,34 +71,38 @@ function checkVision(_size = 0, _target = noone){
 }
 
 function ChaseState(){
-    var _dist = point_distance(hitboxX, hitboxY, pointX, pointY);
-    
-    var _dir = point_direction(hitboxX, hitboxY, pointX, pointY);
-    
-    hitboxY = y - sprite_height / 2;
-    hitboxX = x; 
-    
-    pointX = target.x;
-    pointY = target.y - target.sprite_height/2;
-    
-    
-    var _distX = abs(pointX - hitboxX);
-    var _distY = abs(pointY - hitboxY);
-    
-    if(_distX > vision){
-        state = StateWander;
-    }
-    
-    hspd = lengthdir_x(_distX < 15 ? 0 : spd, _dir);
-    vspd = lengthdir_y(_distY < 5 ? 0 : spd, _dir); 
-    
-    if(_distX < 15 and _distY < 5){
-        state = StateAttack;
-    }
-    
-    if(sprite_index != sEnemyWalk){
-        sprite_index = sEnemyWalk;
-        image_index = 0;
+    if(target != noone){
+        var _dist = point_distance(hitboxX, hitboxY, pointX, pointY);
+        
+        var _dir = point_direction(hitboxX, hitboxY, pointX, pointY);
+        
+        hitboxY = y - sprite_height / 2;
+        hitboxX = x; 
+        
+        pointX = target.x;
+        pointY = target.y - target.sprite_height/2;
+        
+        
+        var _distX = abs(pointX - hitboxX);
+        var _distY = abs(pointY - hitboxY);
+        
+        if(_distX > vision){
+            state = StateWander;
+        }
+        
+        hspd = lengthdir_x(_distX < 15 ? 0 : spd, _dir);
+        vspd = lengthdir_y(_distY < 5 ? 0 : spd, _dir); 
+        
+        if(_distX < 15 and _distY < 5){
+            state = StateAttack;
+        }
+        
+        if(sprite_index != sEnemyWalk){
+            sprite_index = sEnemyWalk;
+            image_index = 0;
+        }
+    }else{
+        state = StateIdle;
     }
 }
 
@@ -114,23 +118,6 @@ function StateAttack(){
     if(image_index > image_number - 1){
         state = StateWander;
         timerAttack = timerWait;
-    }
-}
-
-function DamageStateOld(){
-    hspd = 0;
-    vspd = 0;
-    if(sprite_index != sEnemyHurt){
-        sprite_index = sEnemyHurt;
-        image_index = 0;
-    }
-    
-    x+=.1*target.face;
-    image_blend = c_red;
-    if(image_index >= image_number-1){
-        timerAttack = 20;
-        state = StateIdle;
-        image_blend = c_white;
     }
 }
 
