@@ -1,6 +1,4 @@
 event_inherited();
-
-myDmg = noone;
 spd = 2;
 hspd = 0;
 vspd = 0;
@@ -11,7 +9,21 @@ z = 0;
 grav = .3;
 jumpHeight = 6;
 
+attack = noone;
+
 state = noone;
+
+
+// Variáveis de controle do ataque (adicione no seu evento Create):
+attacking = false;
+hitboxCreated = false;
+combo_stage = 0;
+combo_timer = 0;
+combo_window = 10; // Ajuste conforme necessário
+attack_sprite = noone;
+attack_hitbox_sprite = noone;
+attack_damage = 0;
+attack_offset = 0; // Ajuste conforme a necessidade
 
 function PlayerControls(){
     //Movimentação
@@ -19,11 +31,7 @@ function PlayerControls(){
     var _left   = keyboard_check(ord("A")) || keyboard_check(vk_left);
     var _down   = keyboard_check(ord("S")) || keyboard_check(vk_down);
     var _right  = keyboard_check(ord("D")) || keyboard_check(vk_right);
-    var _hit    = keyboard_check_pressed(ord("Z"));
-    var _jump   = keyboard_check(vk_space);
-    var _dash   = keyboard_check_pressed(vk_shift);
-    
-    #region Movimentação
+
     hspd = (_right - _left);
     vspd = (_down - _up);
     
@@ -56,14 +64,26 @@ function PlayerControls(){
     }
     y += vspd;
     
-    if(_hit and state != StateJump){
-        state = StateAttack;
-    }
+    var _jump   = keyboard_check(vk_space);
     
     if(_jump and state != StateJump){
         state = StateJump;
         zspd = -jumpHeight;
     }
+    
+    _hit   = keyboard_check_pressed(ord("Z"));
+    _kick  = keyboard_check_pressed(ord("X"));
+
+    if((_hit or _kick) and state != StateJump){
+        state = StateAttack;
+    }
+
+    if(_jump and state != StateJump){
+        state = StateJump;
+        zspd = -jumpHeight;
+    }
+    
+    var _dash   = keyboard_check_pressed(vk_shift);
     
     if(_dash and state != StateJump){
         dashTime = 10;
@@ -87,30 +107,78 @@ function StateWalk(){
     }
 }
 
+// Funções para iniciar e continuar o combo (adicione no seu script ou no Create):
+function StartCombo(_anim_sprite, _hitbox_sprite, _damage) {
+    attacking = true;
+    combo_stage = 1;
+    combo_timer = 0;
+    sprite_index = _anim_sprite;
+    image_index = 0;
+    attack_sprite = _anim_sprite;
+    attack_hitbox_sprite = _hitbox_sprite;
+    attack_damage = _damage;
+    hitboxCreated = false;
+}
+
+function ContinueCombo(_anim_sprite, _hitbox_sprite, _damage) {
+    combo_stage++;
+    combo_timer = 0;
+    sprite_index = _anim_sprite;
+    image_index = 0;
+    attack_sprite = _anim_sprite;
+    attack_hitbox_sprite = _hitbox_sprite;
+    attack_damage = _damage;
+    hitboxCreated = false;
+}
+
 function StateAttack(){
-    var _hit    = keyboard_check_pressed(ord("Z"));
-    var _kick    = keyboard_check_pressed(ord("X"));
-    if(sprite_index != sPlayerHandAttack and sprite_index != sPlayerPunch and sprite_index != sPlayerKick){
-        image_index = 0;
-        sprite_index = sPlayerHandAttack;
-    }
+
+    // Inicialização do ataque (se não estivermos já em um ataque)
+    if (!attacking) {
+        if (_hit) {
+            StartCombo(sPlayerPunch, sPlayerPunchHB, 10);
+        } else if (_kick) {
+            StartCombo(sPlayerKick, sPlayerKickHB, 15);
+        }
+    } else {
+        // Lógica de combo
+        combo_timer++;
+        if (combo_timer <= combo_window) {
+            if (_hit) {
+                if (combo_stage == 1 && sprite_index == sPlayerPunch && image_index >= sprite_get_number(sprite_index) - 2) {
+                    ContinueCombo(sPlayerHandAttack, sPlayerHandAttackHB, 5);
+                }
+            } else if (_kick) {
+                // Adicione aqui a lógica para combos que começam ou continuam com chute
+            }
+        }
+        
+        if (attacking && attack_hitbox_sprite != noone && !hitboxCreated) {
+            var _hitbox_frame = -1; // Inicializa com um valor inválido
+        
+            if (attack_sprite == sPlayerPunch) {
+                _hitbox_frame = 3; // O ataque do soco começa no frame 3 (lembrando que o índice começa em 0)
+            } else if (attack_sprite == sPlayerKick) {
+                _hitbox_frame = 4; // O ataque do chute começa no frame 5
+            }
+            // Adicione condições 'else if' para outros ataques se você tiver mais
+        
+            if (_hitbox_frame != -1 && sprite_index == attack_sprite && image_index == _hitbox_frame) {
+                var _inst = instance_create_depth(x, y, depth, oEnemyHitbox);
+                _inst.image_xscale = face;
+                _inst.sprite_index = attack_hitbox_sprite;
+                _inst.creator = id;
+                hitboxCreated = true;
+            }
+        }
     
-    if(_hit){
-        if(sprite_index == sPlayerHandAttack and image_index >= image_number-2){
-            sprite_index = sPlayerPunch; 
-            image_index = 0;
+        // Transição para Idle quando a animação terminar
+        if (image_index >= sprite_get_number(sprite_index) - 1) {
+            attacking = false;
+            combo_stage = 0;
+            state = StateIdle;
         }
     }
-    if(_kick){
-        if(sprite_index == sPlayerHandAttack and image_index >= image_number-2){
-            sprite_index = sPlayerKick; 
-            image_index = 0;
-        }
-    }
-    if(image_index >= image_number-1){
-        state = StateIdle;
-    }
-    delete myDmg;
 }
 
 function StateJump(){
@@ -153,16 +221,6 @@ function DamageState(){
         if(life >= 0){
             state = StateJump;
         }
-    }
-}
-
-function StateDashOld(){
-    x += lerp(0, 10 * face, .5);
-    
-    p = instance_create_depth(x, y, depth, oDash);
-    dashTime--;
-    if(dashTime <= 0){
-        state = StateIdle;
     }
 }
 

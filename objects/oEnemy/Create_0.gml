@@ -109,14 +109,19 @@ function ChaseState(){
 function StateAttack(){
     hspd = 0;
     vspd = 0;
-    delete myDmg;
+    
     if(sprite_index != sEnemyAttack){
         sprite_index = sEnemyAttack;
         image_index = 0;
     }
-    
+    if(image_index == 4){
+        var _inst = instance_create_depth(x, y, depth, oEnemyHitbox);
+        _inst.image_xscale = face;
+        _inst.sprite_index = sEnemyHitBox;
+    }
+
     if(image_index > image_number - 1){
-        state = StateWander;
+        state = ChaseState;
         timerAttack = timerWait;
     }
 }
@@ -124,16 +129,17 @@ function StateAttack(){
 function DamageState(){
     hspd = 0;
     vspd = 0;
+    invulnerableTime = 10;
     if(sprite_index != sEnemyHurt){
         sprite_index = sEnemyHurt;
         image_index = 0; // Garante que a animação comece do início sempre que entra no estado de dano
     }
 
-    x += 0.1 * target.face;
+    //x += 0.1 * target.face;
     image_blend = c_red;
 
     if(image_index >= image_number - 1){
-        state = StateIdle;
+        state = StateWander;
         image_blend = c_white;
     }
 }
