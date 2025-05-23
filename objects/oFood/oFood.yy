@@ -1,15 +1,13 @@
 {
   "$GMObject":"",
-  "%Name":"oPlayer",
+  "%Name":"oFood",
   "eventList":[
-    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":0,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
-    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":3,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
     {"$GMEvent":"v1","%Name":"","collisionObjectId":{"name":"oEnemyHitbox","path":"objects/oEnemyHitbox/oEnemyHitbox.yy",},"eventNum":0,"eventType":4,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
-    {"$GMEvent":"v1","%Name":"","collisionObjectId":{"name":"oFood","path":"objects/oFood/oFood.yy",},"eventNum":0,"eventType":4,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
-    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":18,"eventType":9,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
+    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":3,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
+    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":0,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
   ],
   "managed":true,
-  "name":"oPlayer",
+  "name":"oFood",
   "overriddenProperties":[],
   "parent":{
     "name":"Objects",
@@ -37,12 +35,9 @@
   "resourceVersion":"2.0",
   "solid":false,
   "spriteId":{
-    "name":"sPlayerIdle",
-    "path":"sprites/sPlayerIdle/sPlayerIdle.yy",
+    "name":"sFood",
+    "path":"sprites/sFood/sFood.yy",
   },
-  "spriteMaskId":{
-    "name":"sPlayerIdle",
-    "path":"sprites/sPlayerIdle/sPlayerIdle.yy",
-  },
+  "spriteMaskId":null,
   "visible":true,
 }

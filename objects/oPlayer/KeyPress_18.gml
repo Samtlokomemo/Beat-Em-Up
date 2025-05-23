@@ -1,2 +1,1 @@
-/// @description Nova Função
-state = DamageState;
+life -= 5

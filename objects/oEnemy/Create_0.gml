@@ -145,6 +145,7 @@ function DamageState(){
 }
 
 function DeathState(){
+    
     hspd = 0;
     vspd = 0;
     sprite_index = sEnemyHurt;

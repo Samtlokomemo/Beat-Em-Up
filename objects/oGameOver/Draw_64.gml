@@ -4,6 +4,8 @@ var _centerH = window_get_height() / 2;
 draw_set_font(fntMenu);
 draw_set_alpha(1);
 draw_set_color(-1);
+draw_set_halign(fa_center)
+draw_set_valign(fa_middle)
 draw_text_transformed(_centerW, _centerH, "GAME OVER", 2, 2, 0);
 draw_set_alpha(alpha);
 draw_set_color(c_yellow);

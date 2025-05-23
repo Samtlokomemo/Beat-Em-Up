@@ -146,7 +146,7 @@ function StateAttack(){
         if (combo_timer <= combo_window) {
             if (_hit) {
                 if (combo_stage == 1 && sprite_index == sPlayerPunch && image_index >= sprite_get_number(sprite_index) - 2) {
-                    ContinueCombo(sPlayerHandAttack, sPlayerHandAttackHB, 5);
+                    StartCombo(sPlayerHandAttack, sPlayerHandAttackHB, 5);
                 }
             } else if (_kick) {
                 // Adicione aqui a lógica para combos que começam ou continuam com chute
