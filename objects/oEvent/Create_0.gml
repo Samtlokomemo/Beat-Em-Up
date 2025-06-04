@@ -1,4 +1,4 @@
-event = false
+event = true
 Action = function(){
-    show_message("AAAA")
+    show_message("OI")
 }

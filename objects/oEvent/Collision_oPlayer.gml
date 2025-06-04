@@ -1,1 +1,4 @@
-Action()
+if event{
+    Action()
+}
+event = false
