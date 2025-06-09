@@ -66,7 +66,6 @@
     {"id":{"name":"rmFase1","path":"rooms/rmFase1/rmFase1.yy",},},
     {"id":{"name":"rmGameOver","path":"rooms/rmGameOver/rmGameOver.yy",},},
     {"id":{"name":"RoomUI","path":"roomui/RoomUI/RoomUI.yy",},},
-    {"id":{"name":"GUI_Scripts","path":"scripts/GUI_Scripts/GUI_Scripts.yy",},},
     {"id":{"name":"sndClick","path":"sounds/sndClick/sndClick.yy",},},
     {"id":{"name":"sndDeath","path":"sounds/sndDeath/sndDeath.yy",},},
     {"id":{"name":"sndHit","path":"sounds/sndHit/sndHit.yy",},},
