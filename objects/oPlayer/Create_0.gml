@@ -14,16 +14,17 @@ attack = noone;
 state = noone;
 
 
-// Variáveis de controle do ataque (adicione no seu evento Create):
+// Variáveis de controle do ataque:
 attacking = false;
 hitboxCreated = false;
 combo_stage = 0;
 combo_timer = 0;
-combo_window = 10; // Ajuste conforme necessário
+combo_window = 10;
 attack_sprite = noone;
 attack_hitbox_sprite = noone;
 attack_damage = 0;
-attack_offset = 0; // Ajuste conforme a necessidade
+attack_offset = 0;
+second_attack_cd = 0;
 
 function PlayerControls(){
     //Movimentação
@@ -132,12 +133,13 @@ function ContinueCombo(_anim_sprite, _hitbox_sprite, _damage) {
 }
 
 function StateAttack(){
-
     // Inicialização do ataque (se não estivermos já em um ataque)
     if (!attacking) {
         if (_hit) {
             StartCombo(sPlayerPunch, sPlayerPunchHB, 10);
-        } else if (_kick) {
+        } else if (_kick and second_attack_cd < 0) {
+            second_attack_cd = 90;
+            damage = 10
             StartCombo(sPlayerKick, sPlayerKickHB, 15);
         }
     } else {
@@ -149,7 +151,7 @@ function StateAttack(){
                     StartCombo(sPlayerHandAttack, sPlayerHandAttackHB, 5);
                 }
             } else if (_kick) {
-                // Adicione aqui a lógica para combos que começam ou continuam com chute
+                
             }
         }
         
@@ -157,7 +159,7 @@ function StateAttack(){
             var _hitbox_frame = -1; // Inicializa com um valor inválido
         
             if (attack_sprite == sPlayerPunch) {
-                _hitbox_frame = 3; // O ataque do soco começa no frame 3 (lembrando que o índice começa em 0)
+                _hitbox_frame = 3; // O ataque do soco começa no frame 3 
             } else if (attack_sprite == sPlayerKick) {
                 _hitbox_frame = 4; // O ataque do chute começa no frame 5
             }
@@ -216,7 +218,7 @@ function DamageState(){
     }
     image_blend = c_red;
     if(image_index >= image_number-1){
-        invulnerableTime = invulnerableDuration;
+        //invulnerableTime = invulnerableDuration;
         image_blend = c_white;
         if(life >= 0){
             state = StateJump;

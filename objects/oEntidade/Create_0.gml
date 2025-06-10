@@ -1,10 +1,8 @@
 hspd = 0;
 vspd = 0;
 zspd = 0;
-
+damage = 5;
 face = 1;
-invulnerableTime = 0;
-invulnerableDuration = 30;
 z = 0;
 
 maxLife = 100;

@@ -13,22 +13,14 @@ if (keyboard_check_pressed(vk_enter)) {
         case "Jogar":
             room_goto_next();
             break;
-        case "Opções":
+        case "Créditos":
             menu_index = 1;
             menu_position = 0;
             break;
         case "Sair":
             game_end();
             break;
-        case "Som":
-            menu_index = 2; 
-            menu_position = 0;
-            break;
-        case "Controles":
-            menu_index = 3;
-            menu_position = 0;
-            break;
-        case "Voltar":
+        case creditos_txt:
             menu_index = 0;
             menu_position = 0;
             break;
